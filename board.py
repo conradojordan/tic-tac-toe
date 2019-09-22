@@ -26,6 +26,10 @@ class Board:
         self.tiles[tile] = symbol
 
 
+    def resetTile(self, tile):
+        self.tiles[tile] = ''
+
+
     def resetBoard(self):
         for tile in self.tiles:
             self.tiles[tile] = ''

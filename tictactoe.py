@@ -1,14 +1,41 @@
 import board, random
 
-def AIMove(gameBoard, difficulty):
+def AIMove(gameBoard, difficulty, computerSymbol, humanSymbol):
     print('\n\n\nThe computer has made its move!')
     if difficulty == 'easy':
-        move = random.choice(gameBoard.availableTiles())
+        move = AIEasy(gameboard)
     elif difficulty == 'medium':
-        move = random.choice(gameBoard.availableTiles())
+        move = AIMedium(gameBoard, computerSymbol, humanSymbol)
     else: #difficulty == 'hard'
         move = random.choice(gameBoard.availableTiles())
     return move
+
+def AIEasy(gameboard):
+    return random.choice(gameBoard.availableTiles())
+
+def AIMedium(gameBoard, computerSymbol, humanSymbol):
+    gameBoardCopy = gameBoard.makeCopy()
+
+    #Find winning tile
+    for move in gameBoard.availableTiles():
+        gameBoardCopy.makeMove(move, computerSymbol)
+        if gameBoardCopy.hasWinner():
+            return move
+        gameBoardCopy.resetTile(move)
+
+    #Block opponent winning tile
+    for move in gameBoard.availableTiles():
+        gameBoardCopy.makeMove(move, humanSymbol)
+        if gameBoardCopy.hasWinner():
+            return move
+        gameBoardCopy.resetTile(move)
+
+    #If found none of above, make random move
+    return random.choice(gameBoard.availableTiles())
+
+
+def AIHard(gameBoard):
+    pass
 
 def humanChooseSymbol():
     symbolOptions = ['x', 'o']
@@ -73,7 +100,7 @@ if __name__ == "__main__":
                 break
 
             #Computer plays
-            computerTile = AIMove(gameBoard, difficulty)
+            computerTile = AIMove(gameBoard, difficulty, computerSymbol, humanSymbol)
             gameBoard.makeMove(computerTile,computerSymbol)
             if isGameFinished(gameBoard,'computer'):
                 break
