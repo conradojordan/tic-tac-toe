@@ -1,5 +1,6 @@
 import board, random
 
+
 def AIMove(gameBoard, difficulty, computerSymbol, humanSymbol):
     print('\n\n\nThe computer has made its move!')
     if difficulty == 'easy':
@@ -7,35 +8,35 @@ def AIMove(gameBoard, difficulty, computerSymbol, humanSymbol):
     elif difficulty == 'medium':
         move = AIMedium(gameBoard, computerSymbol, humanSymbol)
     else: #difficulty == 'hard'
-        move = random.choice(gameBoard.availableTiles())
+        move = AIMedium(gameBoard, computerSymbol, humanSymbol)
     return move
+
 
 def AIEasy(gameboard):
     return random.choice(gameBoard.availableTiles())
 
+
 def AIMedium(gameBoard, computerSymbol, humanSymbol):
     gameBoardCopy = gameBoard.makeCopy()
-
     #Find winning tile
     for move in gameBoard.availableTiles():
         gameBoardCopy.makeMove(move, computerSymbol)
         if gameBoardCopy.hasWinner():
             return move
         gameBoardCopy.resetTile(move)
-
     #Block opponent winning tile
     for move in gameBoard.availableTiles():
         gameBoardCopy.makeMove(move, humanSymbol)
         if gameBoardCopy.hasWinner():
             return move
         gameBoardCopy.resetTile(move)
-
     #If found none of above, make random move
     return random.choice(gameBoard.availableTiles())
 
 
 def AIHard(gameBoard):
     pass
+
 
 def humanChooseSymbol():
     symbolOptions = ['x', 'o']
@@ -47,18 +48,31 @@ def humanChooseSymbol():
     else:
         return symbolOptions[1], symbolOptions[0]
 
+
 def humanChooseDifficulty():
     difficultyOptions = ['easy', 'medium', 'hard']
-    difficulty = int(input('What difficulty do you want to play (1 - easy, 2 - medium, 3 - hard)? '))
+    difficulty = int(input('What difficulty do you want to play (1) - easy, (2) - medium, (3) - hard? '))
     while difficulty not in [1, 2, 3]:
         difficulty = int(input('Invalid option. Please type 1, 2 or 3 (1 - easy, 2 - medium, 3 - hard): '))
     return difficultyOptions[difficulty-1]
+
+
+def doesComputerStart():
+    whoStarts = int(input('Who shall start the game (1) - you, (2) - computer, (3) - random? '))
+    while whoStarts not in [1, 2, 3]:
+        whoStarts = int(input('Invalid option. Please type 1, 2 or 3 (1 - you, 2 - computer, 3 - random): '))
+    if whoStarts == 3:
+        return random.choice([True, False])
+    else:
+        return whoStarts == 2
+
 
 def humanMove(gameBoard):
     humanTile = input(f"It is your turn - playing as '{humanSymbol}'. \nMake your move (topL, topM, topR, midL, midM, midR, botL, botM, botR): ")
     while not humanTile in gameBoard.availableTiles():
         humanTile = input('Not a valid choice! Try again: ')
     return humanTile
+
 
 def isGameFinished(gameBoard,currentPlayer):
     if gameBoard.hasWinner():
@@ -73,12 +87,14 @@ def isGameFinished(gameBoard,currentPlayer):
         return True
     return False
 
+
 def askHumanToContinue():
     keepPlaying = input('Do you want to continue playing (y/n)? ')
     if keepPlaying.lower() == 'y':
         return True
     else:
         return False
+
 
 if __name__ == "__main__":
     gameBoard = board.Board()
@@ -89,6 +105,10 @@ if __name__ == "__main__":
         print('Tic-tac-toe began!')
         humanSymbol, computerSymbol = humanChooseSymbol()
         difficulty = humanChooseDifficulty()
+        computerStarts = doesComputerStart()
+
+        if computerStarts:
+            gameBoard.makeMove(AIMove(gameBoard, difficulty, computerSymbol, humanSymbol),computerSymbol)
 
         while gameIsNotOver:
             gameBoard.printBoard()
