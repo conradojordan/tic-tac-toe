@@ -2,13 +2,14 @@ import board, random
 
 
 def AIMove(gameBoard, difficulty, computerSymbol, humanSymbol):
-    print('\n\n\nThe computer has made its move!')
+    print('\n\n\nThe computer is thinking...')
     if difficulty == 'easy':
         move = AIEasy(gameboard)
     elif difficulty == 'medium':
         move = AIMedium(gameBoard, computerSymbol, humanSymbol)
     else: #difficulty == 'hard'
-        move = AIMedium(gameBoard, computerSymbol, humanSymbol)
+        move = AIHard(gameBoard, computerSymbol, humanSymbol)
+    print('The computer has made its move!')
     return move
 
 
@@ -34,8 +35,50 @@ def AIMedium(gameBoard, computerSymbol, humanSymbol):
     return random.choice(gameBoard.availableTiles())
 
 
-def AIHard(gameBoard):
-    pass
+def AIHard(gameBoard, computerSymbol, humanSymbol):
+    gameBoardCopy = gameBoard.makeCopy()
+    moveOptions = []
+    #Compare evaluation of possible moves
+    for move in gameBoard.availableTiles():
+        gameBoardCopy.makeMove(move,computerSymbol)
+        currentMoveEvaluation = evaluateBoard(gameBoardCopy,computerSymbol,humanSymbol)
+        #Return move guaranteed to win, if possible
+        if  currentMoveEvaluation == 1:
+            return move
+        #Make a list of draw moves
+        elif currentMoveEvaluation == 0:
+            moveOptions.append(move)
+        gameBoardCopy.resetTile(move)
+    #Pick random from list of draws
+    if len(moveOptions) > 0:
+        return random.choice(moveOptions)
+    #If there are only losing moves, pick a random one
+    else:
+        return random.choice(gameBoard.availableTiles())
+
+
+def evaluateBoard(gameBoard, symbolToEvaluate, currentPlayer):
+    nextPlayer = 'o' if currentPlayer == 'x' else 'x'
+    winner = gameBoard.hasWinner()
+    #Evaluate if game was win (1), loss(-1) or draw(0)
+    if winner:
+        if winner == symbolToEvaluate:
+            return 1
+        else:
+            return -1
+    elif len(gameBoard.availableTiles()) == 0:
+        return 0
+    #If evaluation is not immediate, use recursion to make all possible moves and evalute those
+    else:
+        evaluations = list()
+        for tile in gameBoard.availableTiles():
+            gameBoardCopy = gameBoard.makeCopy()
+            gameBoardCopy.makeMove(tile,currentPlayer)
+            evaluations.append(evaluateBoard(gameBoardCopy,symbolToEvaluate,nextPlayer))
+        if symbolToEvaluate == currentPlayer:
+            return max(evaluations)
+        else:
+            return min(evaluations)
 
 
 def humanChooseSymbol():
