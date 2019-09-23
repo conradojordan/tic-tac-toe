@@ -13,7 +13,7 @@ def AIMove(gameBoard, difficulty, computerSymbol, humanSymbol):
     return move
 
 
-def AIEasy(gameboard):
+def AIEasy(gameBoard):
     return random.choice(gameBoard.availableTiles())
 
 
@@ -38,6 +38,12 @@ def AIMedium(gameBoard, computerSymbol, humanSymbol):
 def AIHard(gameBoard, computerSymbol, humanSymbol):
     gameBoardCopy = gameBoard.makeCopy()
     moveOptions = []
+    #Find immediate win
+    for move in gameBoard.availableTiles():
+        gameBoardCopy.makeMove(move, computerSymbol)
+        if gameBoardCopy.hasWinner():
+            return move
+        gameBoardCopy.resetTile(move)
     #Compare evaluation of possible moves
     for move in gameBoard.availableTiles():
         gameBoardCopy.makeMove(move,computerSymbol)
@@ -140,7 +146,7 @@ def askHumanToContinue():
 
 
 if __name__ == "__main__":
-    gameBoard = board.Board()
+    gameBoard = board.Board('o','','','','','o','o','x','x')
     humanWantsToKeepPlaying = True
     gameIsNotOver = True
 
@@ -151,7 +157,7 @@ if __name__ == "__main__":
         computerStarts = doesComputerStart()
 
         if computerStarts:
-            gameBoard.makeMove(AIMove(gameBoard, difficulty, computerSymbol, humanSymbol),computerSymbol)
+            gameBoard.makeMove(AIEasy(gameBoard),computerSymbol)
 
         while gameIsNotOver:
             gameBoard.printBoard()

@@ -36,21 +36,21 @@ class Board:
 
 
     def hasWinner(self):
-        if self.tiles['topL'] == self.tiles['topM'] and self.tiles['topM'] == self.tiles['topR']:
+        if self.tiles['topL'] and self.tiles['topL'] == self.tiles['topM'] and self.tiles['topM'] == self.tiles['topR']:
             return self.tiles['topL'] #Across the top
-        elif self.tiles['midL'] == self.tiles['midM'] and self.tiles['midM'] == self.tiles['midR']:
+        elif self.tiles['midL'] and self.tiles['midL'] == self.tiles['midM'] and self.tiles['midM'] == self.tiles['midR']:
             return self.tiles['midL'] #Across the middle
-        elif self.tiles['botL'] == self.tiles['botM'] and self.tiles['botM'] == self.tiles['botR']:
+        elif self.tiles['botL'] and self.tiles['botL'] == self.tiles['botM'] and self.tiles['botM'] == self.tiles['botR']:
             return self.tiles['botL'] #Across the bottom
-        elif self.tiles['topL'] == self.tiles['midL'] and self.tiles['midL'] == self.tiles['botL']:
+        elif self.tiles['topL'] and self.tiles['topL'] == self.tiles['midL'] and self.tiles['midL'] == self.tiles['botL']:
             return self.tiles['topL'] #Left column
-        elif self.tiles['topM'] == self.tiles['midM'] and self.tiles['midM'] == self.tiles['botM']:
+        elif self.tiles['topM'] and self.tiles['topM'] == self.tiles['midM'] and self.tiles['midM'] == self.tiles['botM']:
             return self.tiles['topM'] #Middle column
-        elif self.tiles['topR'] == self.tiles['midR'] and self.tiles['midR'] == self.tiles['botR']:
+        elif self.tiles['topR'] and self.tiles['topR'] == self.tiles['midR'] and self.tiles['midR'] == self.tiles['botR']:
             return self.tiles['topR'] #Right column
-        elif self.tiles['topL'] == self.tiles['midM'] and self.tiles['midM'] == self.tiles['botR']:
+        elif self.tiles['topL'] and self.tiles['topL'] == self.tiles['midM'] and self.tiles['midM'] == self.tiles['botR']:
             return self.tiles['topL'] #Diagonal \
-        elif self.tiles['topR'] == self.tiles['midM'] and self.tiles['midM'] == self.tiles['botL']:
+        elif self.tiles['topR'] and self.tiles['topR'] == self.tiles['midM'] and self.tiles['midM'] == self.tiles['botL']:
             return self.tiles['topR'] #Diagonal /
         else:
             return False
