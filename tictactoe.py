@@ -4,7 +4,7 @@ import board, random
 def AIMove(gameBoard, difficulty, computerSymbol, humanSymbol):
     print('\n\n\nThe computer is thinking...')
     if difficulty == 'easy':
-        move = AIEasy(gameboard)
+        move = AIEasy(gameBoard)
     elif difficulty == 'medium':
         move = AIMedium(gameBoard, computerSymbol, humanSymbol)
     else: #difficulty == 'hard'
