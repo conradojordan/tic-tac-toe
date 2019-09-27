@@ -146,7 +146,7 @@ def askHumanToContinue():
 
 
 if __name__ == "__main__":
-    gameBoard = board.Board('o','','','','','o','o','x','x')
+    gameBoard = board.Board()
     humanWantsToKeepPlaying = True
     gameIsNotOver = True
 
