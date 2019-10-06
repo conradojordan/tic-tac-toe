@@ -1,4 +1,4 @@
-import board, random
+import boardText, random
 
 
 def AIMove(gameBoard, difficulty, computerSymbol, humanSymbol):
@@ -68,7 +68,7 @@ def evaluateBoard(gameBoard, symbolToEvaluate, currentPlayer):
     winner = gameBoard.hasWinner()
     #Evaluate if game was win (1), loss(-1) or draw(0)
     if winner:
-        if winner == symbolToEvaluate:
+        if winner[0] == symbolToEvaluate:
             return 1
         else:
             return -1
@@ -146,7 +146,7 @@ def askHumanToContinue():
 
 
 if __name__ == "__main__":
-    gameBoard = board.Board()
+    gameBoard = boardText.BoardText()
     humanWantsToKeepPlaying = True
     gameIsNotOver = True
 

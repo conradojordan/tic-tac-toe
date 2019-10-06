@@ -1,4 +1,5 @@
 class Board:
+    """Class that represents the board of the game."""
 
     def __init__(self,topL = '',topM = '',topR = '',midL = '',midM = '',midR = '',botL = '',botM = '',botR = ''):
         self.tiles = {'topL': topL, 'topM': topM, 'topR': topR,
@@ -7,6 +8,7 @@ class Board:
 
 
     def availableTiles(self):
+        """Returns a list of available tiles in the board (example: ['topL', 'midR', 'botM'])"""
         availableTiles = list()
         for tile, symbol in self.tiles.items():
             if not symbol:
@@ -28,6 +30,9 @@ class Board:
 
 
     def hasWinner(self):
+        """If the board has winner, returns the winning symbol and the starting and end point of the winning move.
+        Example: return 'x', ['topL', 'topR']
+        """
         if self.tiles['topL'] and self.tiles['topL'] == self.tiles['topM'] and self.tiles['topM'] == self.tiles['topR']:
             return self.tiles['topL'], ['topL', 'topR'] #Across the top
         elif self.tiles['midL'] and self.tiles['midL'] == self.tiles['midM'] and self.tiles['midM'] == self.tiles['midR']:
@@ -48,6 +53,7 @@ class Board:
             return False
 
     def makeCopy(self):
+        """Return a Board object that is a copy of the current Board object. """
         return Board(self.tiles['topL'], self.tiles['topM'], self.tiles['topR'],
                      self.tiles['midL'], self.tiles['midM'], self.tiles['midR'],
                      self.tiles['botL'], self.tiles['botM'], self.tiles['botR'])
