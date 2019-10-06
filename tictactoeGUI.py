@@ -1,3 +1,7 @@
+"""
+Game of tic-tac-toe using appJar GUI framework. Game has 3 difficulties and player can choose between
+starting as X or as O as well as who starts playing.
+"""
 import boardGUI, random
 from appJar import gui
 
@@ -11,6 +15,7 @@ difficulty = 'easy'
 gameBoard = boardGUI.Board()
 
 def AIMove():
+    """Makes computer move using appropriate function depending on the current difficulty."""
     global gameIsRunning, computerIsMakingMove, computerSymbol, difficulty, gameBoard
     computerIsMakingMove = True
     if difficulty == 'easy':
@@ -27,11 +32,14 @@ def AIMove():
 
 
 def AIEasy():
+    """Picks random available tile to play."""
     global gameBoard
     return random.choice(gameBoard.availableTiles())
 
 
 def AIMedium():
+    """If the computer can win in the next move or prevent you from winning with a move, it picks this move.
+    If he can't, it picks a random move."""
     global gameBoard, humanSymbol, computerSymbol
     gameBoardCopy = gameBoard.makeCopy()
     #Find winning tile
@@ -51,6 +59,7 @@ def AIMedium():
 
 
 def AIHard():
+    """Picks best available move using 'minmax' strategy."""
     global gameBoard, computerSymbol
     gameBoardCopy = gameBoard.makeCopy()
     moveOptions = []
@@ -80,6 +89,11 @@ def AIHard():
 
 
 def evaluateBoard(currentBoard, symbolToEvaluate, currentPlayer):
+    """Takes as parameters: a board, a symbol to evaluate and the current symbol moving.
+    Evaluate the board and returns 1 if the board is a win for the symbol to evaluate,
+    returns 0 if the board is a draw or returns -1 if the board is a loss.
+    If it is neither of these options, plays all available moves and recursively calls itself
+    to evaluate resulting boards."""
     nextPlayer = 'o' if currentPlayer == 'x' else 'x'
     winner = currentBoard.hasWinner()
     #Evaluate if game was win (1), loss(-1) or draw(0)

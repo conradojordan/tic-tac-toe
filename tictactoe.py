@@ -1,3 +1,7 @@
+"""
+Game of tic-tac-toe. Game has 3 difficulties and player can choose between
+starting as X or as O as well as who starts playing.
+"""
 import boardText, random
 
 
