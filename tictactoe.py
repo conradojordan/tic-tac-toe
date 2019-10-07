@@ -64,7 +64,7 @@ def AIHard(gameBoard, computerSymbol, humanSymbol):
         return random.choice(moveOptions)
     #If there are only losing moves, pick a random one
     else:
-        return random.choice(gameBoard.availableTiles())
+        return AIMedium(gameBoard, computerSymbol, humanSymbol)
 
 
 def evaluateBoard(gameBoard, symbolToEvaluate, currentPlayer):
