@@ -13,6 +13,10 @@ python tictactoeGUI.py
 ```
 for the GUI version.
 
+## Screenshot
+
+<img src="screenshot.png" alt="Screenshot of tic-tac-toe program running with GUI" width="600"/>
+
 
 ### Prerequisites
 
